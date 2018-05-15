@@ -25,7 +25,7 @@ class App extends React.Component {
 
 export default createBottomTabNavigator(
   {
-    GENERAL: Main,
+    OVERVIEW: Main,
     INCOME: Income,
     EXPENSES: Expenses
   },
@@ -34,8 +34,8 @@ export default createBottomTabNavigator(
       tabBarIcon: ({ tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if(routeName === 'GENERAL') {
-          iconName = 'pencil';
+        if(routeName === 'OVERVIEW') {
+          iconName = 'heart';
         } else if (routeName === 'INCOME') {
           iconName = 'chart';
         } else if (routeName === 'EXPENSES') {

@@ -12,7 +12,10 @@ class ListExpense extends React.Component {
             <TouchableHighlight onPress={console.log(this.props)} style={styles.container}>
                 <View style={styles.item}>
                     <Text style={styles.itemText}>{context.formatPrice(this.props.item.expenseNumber)}</Text>
-                    <TouchableOpacity onPress={() => context.deleteExpense(this.props.item.expenseKey)} style={styles.deleteItem}>
+                    <TouchableOpacity onPress={() => context.editExpense(this.props.item.expenseKey)} style={styles.icon}>
+                      <EvilIcons name={'pencil'} size={45} color={'tomato'} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => context.deleteExpense(this.props.item.expenseKey)} style={styles.icon}>
                       <EvilIcons name={'close-o'} size={45} color={'tomato'} />
                     </TouchableOpacity>
                 </View>
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         fontSize: 24,
     },
-    deleteItem: {
+    icon: {
         flex: 1,
     }
 })

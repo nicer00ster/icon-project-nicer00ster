@@ -13,7 +13,7 @@ class AddIncome extends React.Component {
     }
 
     addIncome(num) {
-        const ref = firebase.app().database().ref('/income');
+        const ref = firebase.database().ref('/income');
         const parsed = parseInt(num);
         if(isNaN(parsed)) {
           Alert.alert(
@@ -29,7 +29,6 @@ class AddIncome extends React.Component {
           ref.push(parsed);
         }
       }
-
 
     render() {
         return (

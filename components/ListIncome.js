@@ -12,7 +12,10 @@ class ListIncome extends React.Component {
             <TouchableHighlight onPress={console.log(this.props)} style={styles.container}>
                 <View style={styles.item}>
                     <Text style={styles.itemText}>{context.formatPrice(this.props.item.incomeNumber)}</Text>
-                    <TouchableOpacity onPress={() => context.deleteIncome(this.props.item.incomeKey)} style={styles.deleteItem}>
+                    <TouchableOpacity onPress={() => context.editIncome(this.props.item.incomeNumber, this.props.item.incomeKey)} style={styles.icon}>
+                      <EvilIcons name={'pencil'} size={45} color={'tomato'} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => context.deleteIncome(this.props.item.incomeKey)} style={styles.icon}>
                       <EvilIcons name={'close-o'} size={45} color={'tomato'} />
                     </TouchableOpacity>
                 </View>
@@ -43,12 +46,12 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
     },
     itemText: {
-        flex: 3,
+        flex: 4,
         color: '#333',
         marginLeft: 12,
         fontSize: 24,
     },
-    deleteItem: {
+    icon: {
         flex: 1,
     }
 })
