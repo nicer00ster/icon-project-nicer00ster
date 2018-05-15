@@ -1,10 +1,10 @@
 import React from 'react';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { TouchableOpacity, View } from 'react-native';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
+import { TouchableOpacity, View, Alert } from 'react-native';
 import Prompt from 'rn-prompt';
 import * as firebase from 'firebase';
 
-class AddButton extends React.Component {
+class AddExpense extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,10 +13,22 @@ class AddButton extends React.Component {
     }
 
     addExpense(num) {
-        const ref = firebase.app().database().ref();
-          return ref.push(num);
+        const ref = firebase.app().database().ref('/expense');
+        const parsed = parseInt(num);
+        if(isNaN(parsed)) {
+          Alert.alert(
+            'Invalid value!',
+            'Enter a number!',
+            [
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            { cancelable: false }
+          )
+          return;
+        } else {
+          ref.push(parsed);
+        }
       }
-
 
     render() {
         return (
@@ -25,7 +37,7 @@ class AddButton extends React.Component {
                 <EvilIcons name={'plus'} size={125} color={'#fab1a0'} />
             </TouchableOpacity>
             <Prompt
-                title={`Add an expense`}
+                title={`Add an expense amount`}
                 placeholder="Enter a number"
                 visible={ this.state.promptVisible }
                 onCancel={ () => this.setState({
@@ -42,4 +54,4 @@ class AddButton extends React.Component {
     }
 }
 
-export default AddButton;
+export default AddExpense;

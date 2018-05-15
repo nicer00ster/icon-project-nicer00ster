@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableHighlight, TouchableOpacity, Text } from 're
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Provider, { Context } from '../context/Context';
 
-class ListExpense extends React.Component {
+class ListIncome extends React.Component {
   render() {
     return (
     <Provider>
@@ -11,8 +11,8 @@ class ListExpense extends React.Component {
         {(context) => (
             <TouchableHighlight onPress={console.log(this.props)} style={styles.container}>
                 <View style={styles.item}>
-                    <Text style={styles.itemText}>{context.formatPrice(this.props.item.expenseNumber)}</Text>
-                    <TouchableOpacity onPress={() => context.deleteExpense(this.props.item.expenseKey)} style={styles.deleteItem}>
+                    <Text style={styles.itemText}>{context.formatPrice(this.props.item.incomeNumber)}</Text>
+                    <TouchableOpacity onPress={() => context.deleteIncome(this.props.item.incomeKey)} style={styles.deleteItem}>
                       <EvilIcons name={'close-o'} size={45} color={'tomato'} />
                     </TouchableOpacity>
                 </View>
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ListExpense;
+export default ListIncome;

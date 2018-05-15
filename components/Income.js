@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Text, ListView } from 'react-native';
 import Provider, { Context } from '../context/Context';
-import AddButton from './AddButton';
-import ListItem from './ListItem';
+import AddIncome from './AddIncome';
+import ListIncome from './ListIncome';
 
 
 class Income extends React.Component {
     renderItem(item) {
         return (
-            <ListItem item={item} onPress={() => {}} />
+            <ListIncome item={item} onPress={() => {}} />
           )
       }
 
@@ -18,14 +18,16 @@ class Income extends React.Component {
                 <Context.Consumer>
                     {(context) => (
                         <View style={styles.container}>
-                            {/* <Text>{Object.keys(context.state.items)}</Text> */}
-                            <ListView dataSource={context.state} renderRow={this.renderItem.bind(this)} />
-                            {/* <Text onPress={() => console.log(context.state)}>Welcome to the ICON App!</Text> */}
-                            <AddButton />
+                            <ListView
+                              dataSource={context.state.incomeDataSource}
+                              renderSeperator={(sectionId, rowId) => <View key={rowId} />}
+                              renderRow={this.renderItem.bind(this)} />
+                              <Text>INCOME</Text>
+                            <AddIncome />
                         </View>
                     )}
                 </Context.Consumer>
-            </Provider> 
+            </Provider>
         )
     }
 }
@@ -33,6 +35,7 @@ class Income extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      marginTop: 20,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',

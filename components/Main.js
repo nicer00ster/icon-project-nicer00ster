@@ -1,34 +1,18 @@
 import React from 'react';
 import * as firebase from 'firebase';
 import firebaseApp from '../base';
-import Expenses from './Expenses';
-import Income from './Income';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Provider, { Context } from '../context/Context';
 import { Button } from './Button';
 import { createBottomTabNavigator } from 'react-navigation';
-import { StyleSheet, Text, View, Alert, ListView } from 'react-native';
+import { StyleSheet, Text, View, Alert, ListView, ActivityIndicator } from 'react-native';
 
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
-
-    const ref = firebase.app().database().ref();
-    ref.once('value')
-      .then(function(snap) {
-        console.log(`snap.val()`, snap.val());
-      });
   }
 
-  resetFinances() {
-      return firebase.database().ref().remove();
-  }
-
-  addSample() {
-    const ref = firebase.app().database().ref();
-      return ref.push(24234);
-  }
 
   render() {
     return (
@@ -36,13 +20,16 @@ class Main extends React.Component {
             <Context.Consumer>
                 {(context) => (
                     <View style={styles.container}>
-                        <Text>Welcome to the ICON App!</Text>
-                        <Button onPress={() => this.resetFinances()}>RESET</Button>
-                        <Button onPress={() => this.addSample()}>ADD</Button>
+                        <Text onPress={() => console.log(context)}>Welcome to the ICON App!</Text>
+                        <Text>
+                          Balance: {context.formatPrice(context.state.incomeSum - context.state.expenseSum)}
+                        </Text>
+                        <Button onPress={() => context.resetFinances()}>RESET</Button>
+                        <Button onPress={() => context.logData()}>LOG</Button>
                     </View>
                 )}
             </Context.Consumer>
-      </Provider> 
+      </Provider>
     );
   }
 }
