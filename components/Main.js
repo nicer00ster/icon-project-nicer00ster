@@ -4,7 +4,6 @@ import firebaseApp from '../base';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Provider, { Context } from '../context/Context';
 import { Button } from './Button';
-import { createBottomTabNavigator } from 'react-navigation';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { StyleSheet, Text, View, Alert, ListView, ActivityIndicator } from 'react-native';
 
@@ -96,14 +95,14 @@ class Main extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff0ed',
     alignItems: 'center',
     justifyContent: 'center',
   },
   twoContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#fff0ed',
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 35

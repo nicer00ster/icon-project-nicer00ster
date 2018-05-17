@@ -3,6 +3,7 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { TouchableOpacity, View, Alert } from 'react-native';
 import Prompt from 'rn-prompt';
 import * as firebase from 'firebase';
+import Provider, { Context } from '../context/Context';
 
 class AddExpense extends React.Component {
     constructor(props) {
@@ -12,44 +13,32 @@ class AddExpense extends React.Component {
         }
     }
 
-    addExpense(num) {
-        const ref = firebase.app().database().ref('/expense');
-        const parsed = parseInt(num);
-        if(isNaN(parsed)) {
-          Alert.alert(
-            'Invalid value!',
-            'Enter a number!',
-            [
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            { cancelable: false }
-          )
-          return;
-        } else {
-          ref.push(parsed);
-        }
-      }
-
     render() {
         return (
-            <View>
-            <TouchableOpacity onPress={() => this.setState({ promptVisible: true })}>
-                <EvilIcons name={'plus'} size={125} color={'#fab1a0'} />
-            </TouchableOpacity>
-            <Prompt
-                title={`Add an expense amount`}
-                placeholder="Enter a number"
-                visible={ this.state.promptVisible }
-                onCancel={ () => this.setState({
-                promptVisible: false,
-                }) }
-                onSubmit={ (value) => {
-                    this.addExpense(value)
-                    this.setState({
-                        promptVisible: false
-                    })
-                } }/>
-            </View>
+          <Provider>
+              <Context.Consumer>
+              {(context) => (
+                <View>
+                <TouchableOpacity onPress={() => this.setState({ promptVisible: true })}>
+                    <EvilIcons name={'plus'} size={125} color={'#fab1a0'} />
+                </TouchableOpacity>
+                <Prompt
+                    title={`Add an expense amount`}
+                    placeholder="Enter a number"
+                    visible={ this.state.promptVisible }
+                    onCancel={ () => this.setState({
+                    promptVisible: false,
+                    }) }
+                    onSubmit={ (value) => {
+                        context.addExpense(value)
+                        this.setState({
+                            promptVisible: false
+                        })
+                    } }/>
+                </View>
+              )}
+              </Context.Consumer>
+          </Provider>
         )
     }
 }

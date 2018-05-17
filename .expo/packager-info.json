@@ -1,8 +1,8 @@
 {
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 14432,
+  "expoServerNgrokUrl": "https://zu-kb2.nicer00ster.icon-project-nicer00ster.exp.direct",
+  "packagerNgrokUrl": "https://packager.zu-kb2.nicer00ster.icon-project-nicer00ster.exp.direct",
+  "ngrokPid": 4552
 }

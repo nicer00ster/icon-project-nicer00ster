@@ -14,6 +14,7 @@ export default class Provider extends React.Component {
         this.state = {
             loading: true,
             fill: 0,
+            type: '',
             expenseDataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2,
             }),
@@ -33,11 +34,12 @@ export default class Provider extends React.Component {
             var expenseTotal = [];
             // Loop through each value in our database
             snap.forEach((child) => {
-              var childValues = child.val();
+              var childValues = child.child('value').val();
               expenseTotal.push(childValues);
                 expenseItems.push({
                   expenseSum: expenseTotal,
-                  expenseNumber: child.val(),
+                  expenseNumber: child.child('value').val(),
+                  expenseType: child.child('type').val(),
                   expenseKey: child.key
                 })
             });
@@ -58,11 +60,12 @@ export default class Provider extends React.Component {
             var incomeTotal = [];
             // Loop through each value in our database
             snap.forEach((child) => {
-              var childValues = child.val();
+              var childValues = child.child('value').val();
               incomeTotal.push(childValues);
                 incomeItems.push({
                   incomeSum: incomeTotal,
-                  incomeNumber: child.val(),
+                  incomeNumber: child.child('value').val(),
+                  incomeType: child.child('type').val(),
                   incomeKey: child.key
                 })
             });
@@ -98,6 +101,26 @@ export default class Provider extends React.Component {
           logData: () => {
             console.log(fill);
           },
+          addIncome: (num) => {
+              const ref = firebase.database().ref('/income');
+              const parsed = parseInt(num);
+              if(isNaN(parsed)) {
+                Alert.alert(
+                  'Invalid value!',
+                  'Enter a number!',
+                  [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ],
+                  { cancelable: false }
+                )
+                return;
+              } else {
+                ref.push({
+                  value: parsed,
+                  type: 'Beer'
+                });
+              }
+            },
           deleteIncome: (key) => {
             const ref = firebase.database().ref('/income/' + key);
             Alert.alert(
@@ -110,13 +133,53 @@ export default class Provider extends React.Component {
               { cancelable: false }
             )
           },
-          editIncome: (num, key) => {
+          editIncome: (num, key, type) => {
             const ref = firebase.database().ref('/income/' + key);
             AlertIOS.prompt(
               'Edit Income',
               'Enter a value',
-              num => ref.set(parseInt(num))
+              num => {
+                if(isNaN(num)) {
+                  Alert.alert(
+                    'Invalid value!',
+                    'Enter a number!',
+                    [
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+                  )
+                  return;
+                } else {
+                  ref.set({
+                    value: parseInt(num),
+                    // type
+                  });
+                }
+              },
+              'plain-text',
+              num.toString(),
+              'numeric',
             );
+          },
+          addExpense: (num) => {
+            const ref = firebase.database().ref('/expense/');
+            const parsed = parseInt(num);
+            if(isNaN(parsed)) {
+              Alert.alert(
+                'Invalid value!',
+                'Enter a number!',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+              )
+              return;
+            } else {
+              ref.push({
+                value: parsed,
+                type: 'Beer'
+              })
+            }
           },
           deleteExpense: (key) => {
             const ref = firebase.database().ref('/expense/' + key);
@@ -130,14 +193,34 @@ export default class Provider extends React.Component {
               { cancelable: false }
             )
           },
-          editExpense: (num, key) => {
+          editExpense: (num, key, type) => {
             const ref = firebase.database().ref('/expense/' + key);
             AlertIOS.prompt(
               'Edit Expense',
               'Enter a value',
-              num => ref.set(parseInt(num))
+              num => {
+                if(isNaN(num)) {
+                  Alert.alert(
+                    'Invalid value!',
+                    'Enter a number!',
+                    [
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+                  )
+                  return;
+                } else {
+                  ref.set({
+                    value: parseInt(num),
+                    // type
+                  });
+                }
+              },
+              'plain-text',
+              num.toString(),
+              'numeric',
             );
-          },
+          }
       }}>
         {this.props.children}
       </Context.Provider>

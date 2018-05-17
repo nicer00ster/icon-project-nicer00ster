@@ -7,7 +7,7 @@ import Income from './components/Income';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Main from './components/Main';
 import { Button } from './components/Button';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { StyleSheet, Text, View, Alert, ListView } from 'react-native';
 console.disableYellowBox = true;
 
@@ -18,16 +18,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <Main />
+      <Root />
     );
   }
 }
 
-export default createBottomTabNavigator(
+
+const Root = createBottomTabNavigator(
   {
-    OVERVIEW: Main,
-    INCOME: Income,
-    EXPENSES: Expenses
+    OVERVIEW: { screen: Main },
+    INCOME: { screen: Income },
+    EXPENSES: { screen: Expenses }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -57,3 +58,24 @@ export default createBottomTabNavigator(
   }
 }
 );
+
+
+export default createStackNavigator(
+  {
+    Root
+  },
+  {
+    navigationOptions: {
+      headerTitle: 'BANKER BUDDY',
+      headerTintColor: '#81ecec',
+      headerStyle: {
+        backgroundColor: '#fab1a0',
+        height: 75
+      },
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontSize: 24
+      }
+    }
+  }
+)

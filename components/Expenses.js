@@ -35,8 +35,7 @@ class Expenses extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop: 20,
-      backgroundColor: '#fff',
+      backgroundColor: '#fff0ed',
       alignItems: 'center',
       justifyContent: 'center',
     },
