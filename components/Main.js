@@ -11,10 +11,18 @@ import { StyleSheet, Text, View, Alert, ListView, ActivityIndicator } from 'reac
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      incomeFill: 50,
+      expenseFill: 75,
+      balanceFill: 90
+    }
   }
-
-  componentWillMount() {
-
+  componentDidMount() {
+    // this.setState({
+    //   incomeFill: this.props.incomeSum,
+    //   expenseFill: this.props.expenseSum,
+    //   balanceFill: 5
+    // })
   }
 
   render() {
@@ -27,7 +35,7 @@ class Main extends React.Component {
                         <AnimatedCircularProgress
                           size={125}
                           width={3}
-                          fill={55}
+                          fill={this.state.incomeFill}
                           tintColor="#55efc4"
                           onAnimationComplete={() => console.log('onAnimationComplete')}
                           backgroundColor="#fab1a0"
@@ -38,7 +46,7 @@ class Main extends React.Component {
                                 <Text style={styles.incomeCircle}>
                                   {context.formatPrice(context.state.incomeSum)}
                                 </Text>
-                                <Text>INCOME</Text>
+                                <Text style={styles.text}>INCOME</Text>
                               </View>
                             )
                           }
@@ -46,7 +54,7 @@ class Main extends React.Component {
                         <AnimatedCircularProgress
                           size={125}
                           width={3}
-                          fill={35}
+                          fill={this.state.expenseFill}
                           tintColor="#ff7675"
                           onAnimationComplete={() => console.log('onAnimationComplete')}
                           backgroundColor="#fab1a0"
@@ -57,7 +65,7 @@ class Main extends React.Component {
                                 <Text style={styles.expenseCircle}>
                                   {context.formatPrice(context.state.expenseSum)}
                                 </Text>
-                                <Text>EXPENSE</Text>
+                                <Text style={styles.text}>EXPENSE</Text>
                               </View>
                             )
                           }
@@ -66,7 +74,7 @@ class Main extends React.Component {
                       <AnimatedCircularProgress
                         size={220}
                         width={5}
-                        fill={75}
+                        fill={this.state.balanceFill}
                         tintColor="#74b9ff"
                         onAnimationComplete={() => console.log('onAnimationComplete')}
                         backgroundColor="#fab1a0"
@@ -77,7 +85,7 @@ class Main extends React.Component {
                               <Text style={styles.balance}>
                                 {context.formatPrice(context.state.incomeSum - context.state.expenseSum)}
                               </Text>
-                              <Text>BALANCE</Text>
+                              <Text style={styles.text}>BALANCE</Text>
                             </View>
                           )
                         }
@@ -133,7 +141,12 @@ const styles = StyleSheet.create({
     color: '#7591af',
     fontSize: 16,
     fontWeight: "100"
-  }
+  },
+  text: {
+    color: '#7591af',
+    fontSize: 14,
+    fontWeight: "100",
+  },
 });
 
 

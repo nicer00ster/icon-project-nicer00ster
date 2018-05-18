@@ -1,4 +1,5 @@
 import React from 'react';
+import * as firebase from 'firebase';
 import { StyleSheet, View, TouchableHighlight, TouchableOpacity, Text, TextInput } from 'react-native';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -9,22 +10,59 @@ class ListIncome extends React.Component {
   constructor() {
     super();
     this.state = {
-      category: ''
+      category: <Ionicons name={'ios-arrow-dropdown-outline'} size={45} color={'#333'} />,
+      categoryText: ''
     }
+  }
+  componentDidMount() {
+    const ref = firebase.database().ref('/income/' + this.props.item.incomeKey);
+    ref.once('value')
+      .then((snap) => {
+        this.setState({
+          categoryText: snap.val().tag
+        });
+        switch(this.state.categoryText) {
+          case 'Cash':
+            this.setState({ category: <Ionicons name={'ios-cash-outline'} size={45} color={'#00b894'} /> })
+            break;
+          case 'Credit Card':
+            this.setState({ category: <Ionicons name={'ios-card-outline'} size={45} color={'#ff7675'} /> })
+            break;
+          case 'Paycheck':
+            this.setState({ category: <Ionicons name={'ios-calendar-outline'} size={45} color={'#0984e3'} /> })
+            break;
+          case 'Freelance':
+            this.setState({ category: <Ionicons name={'ios-hammer-outline'} size={45} color={'#2d3436'} /> })
+            break;
+          default:
+            this.setState({ category: <Ionicons name={'ios-arrow-dropdown-outline'} size={45} color={'#333'} /> })
+        }
+    });
   }
 
   render() {
     let index = 0;
     const data = [
-        { key: index++, section: true, label: 'Income Type' },
-        { key: index++, label: <Ionicons name={'ios-cash-outline'} size={45} color={'#00b894'} onPress={() => this.setState({ category: 'Cash' })} /> },
-        { key: index++, label: <Ionicons name={'ios-card-outline'} size={45} color={'#ff7675'} /> },
-        { key: index++, label: 'Radishes' },
-        { key: index++, label: 'Radicchio' },
-        { key: index++, label: 'Red Onions' },
-        { key: index++, label: 'Red Potatoes' },
-        { key: index++, label: 'Rhubarb' },
-        { key: index++, label: 'Tomatoes' }
+        { key: index++,
+          section: true,
+          label: 'Income Type'
+        },
+        { key: index++,
+          labelText: 'Cash',
+          label: <Ionicons name={'ios-cash-outline'} size={45} color={'#00b894'} />
+        },
+        { key: index++,
+          labelText: 'Credit Card',
+          label: <Ionicons name={'ios-card-outline'} size={45} color={'#ff7675'} />
+        },
+        { key: index++,
+          labelText: 'Paycheck',
+          label: <Ionicons name={'ios-calendar-outline'} size={45} color={'#0984e3'} />
+        },
+        { key: index++,
+          labelText: 'Freelance',
+          label: <Ionicons name={'ios-hammer-outline'} size={45} color={'#2d3436'} />
+        },
     ];
     return (
     <Provider>
@@ -35,11 +73,17 @@ class ListIncome extends React.Component {
                   <ModalSelector
                       selectStyle={{borderColor: 'transparent'}}
                       data={data}
-                      initValue={<Ionicons name={'ios-arrow-dropdown-outline'} size={45} color={'#81ecec'} />}
-                      onChange={option => { this.setState({ category: option.label }) }} />
+                      initValue={this.state.category}
+                      onChange={option => {
+                        this.setState({
+                          category: option.label,
+                          categoryText: option.labelText
+                        });
+                        context.tagIncome(this.props.item.incomeNumber, option.labelText, this.props.item.incomeKey);
+                      }} />
                   <View style={{flex: 2}}>
                     <Text style={styles.itemText}>{context.formatPrice(this.props.item.incomeNumber)}</Text>
-                    <Text style={styles.labelText}>{this.state.category}</Text>
+                    <Text style={styles.labelText}>{this.state.categoryText}</Text>
                   </View>
                   <View style={{flex: 1, flexDirection: 'row'}}>
                     <TouchableOpacity onPress={() => context.editIncome(this.props.item.incomeNumber, this.props.item.incomeKey, this.props.item.type)} style={styles.icon}>
@@ -83,6 +127,7 @@ const styles = StyleSheet.create({
       color: '#333',
       marginLeft: 12,
       fontSize: 24,
+      fontWeight: "100"
     },
     labelText: {
       flex: 4,

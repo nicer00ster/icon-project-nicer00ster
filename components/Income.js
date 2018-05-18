@@ -22,7 +22,6 @@ class Income extends React.Component {
                               dataSource={context.state.incomeDataSource}
                               renderSeperator={(sectionId, rowId) => <View key={rowId} />}
                               renderRow={this.renderItem.bind(this)} />
-                            <Text>INCOME</Text>
                             <AddIncome />
                         </View>
                     )}

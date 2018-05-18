@@ -6,9 +6,9 @@ import ListExpense from './ListExpense';
 
 
 class Expenses extends React.Component {
-    renderItem(item) {
+    renderItem(item, sectionID ,rowID) {
         return (
-            <ListExpense item={item} onPress={() => {}} />
+            <ListExpense item={item} rowID={rowID} sectionID={sectionID} onPress={() => {}} />
           )
       }
 
@@ -22,7 +22,6 @@ class Expenses extends React.Component {
                               dataSource={context.state.expenseDataSource}
                               renderSeperator={(sectionId, rowId) => <View key={rowId} />}
                               renderRow={this.renderItem.bind(this)} />
-                              <Text>EXPENSES</Text>
                             <AddExpense />
                         </View>
                     )}

@@ -23,6 +23,7 @@ export default class Provider extends React.Component {
             }),
             expenseSum: 0,
             incomeSum: 0,
+            categoryText: ''
         }
     }
     componentDidMount() {
@@ -39,7 +40,6 @@ export default class Provider extends React.Component {
                 expenseItems.push({
                   expenseSum: expenseTotal,
                   expenseNumber: child.child('value').val(),
-                  expenseType: child.child('type').val(),
                   expenseKey: child.key
                 })
             });
@@ -51,7 +51,7 @@ export default class Provider extends React.Component {
             }
             this.setState({
                 expenseDataSource: this.state.expenseDataSource.cloneWithRows(expenseItems),
-                expenseSum: expenseTotal
+                expenseSum: parseInt(expenseTotal)
             });
         });
 
@@ -65,7 +65,6 @@ export default class Provider extends React.Component {
                 incomeItems.push({
                   incomeSum: incomeTotal,
                   incomeNumber: child.child('value').val(),
-                  incomeType: child.child('type').val(),
                   incomeKey: child.key
                 })
             });
@@ -77,7 +76,7 @@ export default class Provider extends React.Component {
             }
             this.setState({
                 incomeDataSource: this.state.incomeDataSource.cloneWithRows(incomeItems),
-                incomeSum: incomeTotal
+                incomeSum: parseInt(incomeTotal)
             });
         });
     }
@@ -94,15 +93,8 @@ export default class Provider extends React.Component {
               currency: "USD"
             });
           },
-          resetFinances: () => {
-            firebase.database().ref().remove();
-              return this.state.sum = 0;
-          },
-          logData: () => {
-            console.log(fill);
-          },
           addIncome: (num) => {
-              const ref = firebase.database().ref('/income');
+              const ref = firebase.database().ref('/income/');
               const parsed = parseInt(num);
               if(isNaN(parsed)) {
                 Alert.alert(
@@ -116,8 +108,7 @@ export default class Provider extends React.Component {
                 return;
               } else {
                 ref.push({
-                  value: parsed,
-                  type: 'Beer'
+                  value: parsed
                 });
               }
             },
@@ -151,8 +142,7 @@ export default class Provider extends React.Component {
                   return;
                 } else {
                   ref.set({
-                    value: parseInt(num),
-                    // type
+                    value: parseInt(num)
                   });
                 }
               },
@@ -160,6 +150,16 @@ export default class Provider extends React.Component {
               num.toString(),
               'numeric',
             );
+          },
+          tagIncome: (num, tag, key) => {
+            const ref = firebase.database().ref('/income/' + key);
+            this.setState({
+              categoryText: tag
+            });
+            ref.set({
+              value: parseInt(num),
+              tag: this.state.categoryText
+            });
           },
           addExpense: (num) => {
             const ref = firebase.database().ref('/expense/');
@@ -176,24 +176,25 @@ export default class Provider extends React.Component {
               return;
             } else {
               ref.push({
-                value: parsed,
-                type: 'Beer'
+                value: parsed
               })
             }
           },
-          deleteExpense: (key) => {
+          deleteExpense: (key, rowID) => {
             const ref = firebase.database().ref('/expense/' + key);
             Alert.alert(
               'Deleting Expense',
               'Are you sure you want to delete this expense?',
               [
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: 'OK', onPress: () => ref.remove()},
+                {text: 'OK', onPress: () => {
+                  ref.remove()
+                }},
               ],
               { cancelable: false }
             )
           },
-          editExpense: (num, key, type) => {
+          editExpense: (num, key) => {
             const ref = firebase.database().ref('/expense/' + key);
             AlertIOS.prompt(
               'Edit Expense',
@@ -210,9 +211,8 @@ export default class Provider extends React.Component {
                   )
                   return;
                 } else {
-                  ref.set({
-                    value: parseInt(num),
-                    // type
+                  ref.update({
+                    value: parseInt(num)
                   });
                 }
               },
@@ -220,6 +220,16 @@ export default class Provider extends React.Component {
               num.toString(),
               'numeric',
             );
+          },
+          tagExpense: (num, tag, key) => {
+            const ref = firebase.database().ref('/expense/' + key);
+            this.setState({
+              categoryText: tag
+            });
+            ref.set({
+              value: parseInt(num),
+              tag: this.state.categoryText
+            });
           }
       }}>
         {this.props.children}
