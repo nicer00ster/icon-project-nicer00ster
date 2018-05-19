@@ -7,11 +7,10 @@ import ListIncome from './ListIncome';
 
 class Income extends React.Component {
     renderItem(item) {
-        return (
-            <ListIncome item={item} onPress={() => {}} />
-          )
-      }
-
+      return (
+          <ListIncome item={item} onPress={() => {}} />
+        )
+    }
     render() {
         return (
             <Provider>

@@ -17,13 +17,6 @@ class Main extends React.Component {
       balanceFill: 90
     }
   }
-  componentDidMount() {
-    // this.setState({
-    //   incomeFill: this.props.incomeSum,
-    //   expenseFill: this.props.expenseSum,
-    //   balanceFill: 5
-    // })
-  }
 
   render() {
     return (
@@ -90,8 +83,6 @@ class Main extends React.Component {
                           )
                         }
                       </AnimatedCircularProgress>
-                        {/* <Button onPress={() => context.resetFinances()}>RESET</Button>
-                        <Button onPress={() => context.logData()}>LOG</Button> */}
                     </View>
                 )}
             </Context.Consumer>

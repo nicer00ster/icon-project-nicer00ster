@@ -7,11 +7,10 @@ import ListExpense from './ListExpense';
 
 class Expenses extends React.Component {
     renderItem(item, sectionID ,rowID) {
-        return (
-            <ListExpense item={item} rowID={rowID} sectionID={sectionID} onPress={() => {}} />
-          )
-      }
-
+      return (
+        <ListExpense item={item} rowID={rowID} sectionID={sectionID} onPress={() => {}} />
+      )
+    }
     render() {
         return (
             <Provider>

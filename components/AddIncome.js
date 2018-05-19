@@ -19,9 +19,9 @@ class AddIncome extends React.Component {
               <Context.Consumer>
               {(context) => (
                 <View style={styles.container}>
-                  <Text style={styles.text}>INCOME</Text>
+                  <Text style={styles.text}>Income</Text>
                   <TouchableOpacity onPress={() => this.setState({ promptVisible: true })}>
-                      <EvilIcons name={'plus'} size={125} color={'#81ecec'} />
+                      <EvilIcons name={'plus'} size={125} color={'#fab1a0'} />
                   </TouchableOpacity>
                   <Prompt
                       title={`Add an income amount`}
