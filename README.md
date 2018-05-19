@@ -35,7 +35,7 @@ npm run start
 
 ## Authors
 
-* **Alex Busch** - *Initial work* - [nicer00ster](https://github.com/nicer00ster)
+* **Alex Busch** - [nicer00ster](https://github.com/nicer00ster)
 
 
 ## License
