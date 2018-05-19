@@ -44,5 +44,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* @wesbos for helping me understand core React concepts.
+* [Wes Bos](https://github.com/wesbos) for helping me understand core React concepts.
 * Inspiration -- I love coconuts
