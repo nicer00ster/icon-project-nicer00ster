@@ -24,7 +24,7 @@ Step by step instructions that tell you how to get a development environment run
 git clone https://github.com/nicer00ster/icon-project-nicer00ster.git
 cd icon-project-nicer00ster
 npm install
-
+npm run start
 ```
 
 ## Built With
